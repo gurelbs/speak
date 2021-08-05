@@ -28,7 +28,22 @@ function App() {
     console.log(`Browser doesn't support speech recognition.`);
     return <span>Browser doesn't support speech recognition.</span>;
   }
-
+  function Mobile(){
+    const Reco = window.SpeechRecognition || window.webkitSpeechRecognition
+    
+    function handleReco(){
+      let reco = new Reco()
+      reco.start()
+      reco.onresult(e => {
+        let transcript = e.results[0][0].transcript;
+        console.log(e.results, transcript);
+      })
+    }
+    
+    return <button onClick={handleReco}>
+      זיהוי קולי בטלפון
+    </button>
+  }
   return (
     <div>
       <p>מיקרופון: {
@@ -52,6 +67,7 @@ function App() {
       :'כיבוי'
       }</button>
       <p>{transcript}</p>
+      <Mobile/>
     </div>
   );
 }
