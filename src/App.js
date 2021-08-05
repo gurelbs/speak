@@ -29,15 +29,14 @@ function App() {
     return <span>Browser doesn't support speech recognition.</span>;
   }
   function Mobile(){
-    const Reco = window.SpeechRecognition || window.webkitSpeechRecognition
+    
     
     function handleReco(){
-      let reco = new Reco()
+      const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+      let reco = new SpeechRecognition()
+      console.log(reco);
       reco.start()
-      reco.onresult(e => {
-        let transcript = e.results[0][0].transcript;
-        console.log(e.results, transcript);
-      })
+      reco.onresult = e => console.log(e.results[0][0].transcript);
     }
     
     return <button onClick={handleReco}>
