@@ -39,6 +39,7 @@ function App() {
           e.preventDefault()
           return false;
         }}
+        onClick={startListening}
         onTouchStart={startListening}
         onMouseDown={startListening}
         onTouchEnd={SpeechRecognition.stopListening}
