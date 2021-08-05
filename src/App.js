@@ -33,9 +33,9 @@ function App() {
     
     function handleReco(){
       const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
-      let reco = new SpeechRecognition()
-      console.log(reco);
-      reco.start()
+      let recognition = new SpeechRecognition()
+      console.log(recognition);
+      recognition.start()
       recognition.onresult = (e) => {
         const current = e.resultIndex;
         let transcript = e.results[current][0].transcript;
