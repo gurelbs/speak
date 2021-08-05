@@ -4,8 +4,6 @@ object-assign
 @license MIT
 */
 
-/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
-
 /** @license React v0.20.2
  * scheduler.production.min.js
  *
