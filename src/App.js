@@ -37,7 +37,7 @@ function App() {
           e.preventDefault()
           return false;
         }}
-        onClick={startListening}
+        onClick={listening ? SpeechRecognition.stopListening : startListening}
       >לחיצה ל {listening ? 'דיבור' :'כיבוי'}</button>
       <p>{transcript}</p>
     </div>
