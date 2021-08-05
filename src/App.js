@@ -11,13 +11,15 @@ function App() {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
   const [havePermissions, setHavePermissions] = useState(false)
+  const [answer, setAnswer] = useState('')
+
   React.useEffect(() => {
-    if (finalTranscript){
-      const speak = new SpeechSynthesisUtterance(finalTranscript)
+    if (answer){
+      const speak = new SpeechSynthesisUtterance(answer)
       speechSynthesis.speak(speak)
-      console.log(finalTranscript);
+      console.log(answer);
     }
-  },[finalTranscript])
+  },[answer])
 
   const startListening = () => {
     resetTranscript()
@@ -30,34 +32,25 @@ function App() {
   }
   function Mobile(){
     
-    function checkPermissions() {
-      const permissions = navigator.mediaDevices.getUserMedia({audio: true, video: false})
-      permissions.then((stream) => {
-        alert('accepted the permissions');
-        setHavePermissions( x => !x)
-      })
-      .catch((err) => {
-        setHavePermissions(false)
-        console.log(`${err.name} : ${err.message}`)
-      });
-    }
-    
     function handleReco(){
-      checkPermissions()
-      const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
-      let recognition = new SpeechRecognition()
-      recognition.start();
+      const recognition = new (window.speechRecognition || window.webkitSpeechRecognition)();
+      recognition.start()
       recognition.onresult = (e) => {
         const current = e.resultIndex;
         let transcript = e.results[current][0].transcript;
+        setAnswer(transcript)
         let mobileRepeatBug = (current == 1 && transcript == e.results[0][0].transcript);
-
         if(!mobileRepeatBug) {
             if(transcript === 'בדיקה' || transcript === ' בדיקה') {
                 console.log(transcript);
             }
+        } else {
+          setAnswer(mobileRepeatBug)
         }
-    }
+        recognition.onend = () => {
+          console.log('Speech recognition service disconnected');
+        }
+      }
     }
     return <button onClick={handleReco}>
       זיהוי קולי בטלפון
@@ -87,6 +80,7 @@ function App() {
       }</button>
       <p>{transcript}</p>
       <Mobile/>
+      {answer}
     </div>
   );
 }
