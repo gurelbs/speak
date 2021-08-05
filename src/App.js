@@ -53,7 +53,11 @@ function App() {
 
     }
     }
-    
+      const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+      getUserMedia.call(navigator, {
+        video: true,
+        audio: true //optional
+    })
     return <button onClick={handleReco}>
       זיהוי קולי בטלפון
     </button>
