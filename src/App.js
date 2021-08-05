@@ -36,7 +36,22 @@ function App() {
       let reco = new SpeechRecognition()
       console.log(reco);
       reco.start()
-      reco.onresult = e => console.log(e.results[0][0].transcript);
+      recognition.onresult = (e) => {
+        const current = e.resultIndex;
+        let transcript = e.results[current][0].transcript;
+        let mobileRepeatBug = (current == 1 && transcript == e.results[0][0].transcript);
+
+        if(!mobileRepeatBug) {
+            if(transcript === 'בדיקה' || transcript === ' בדיקה') {
+                console.log(transcript);
+                e.results = {};
+            }
+        }
+      setTimeout(() => {
+        recognition.start();
+      }, 50);
+
+    }
     }
     
     return <button onClick={handleReco}>
