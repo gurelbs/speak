@@ -31,14 +31,26 @@ function App() {
 
   return (
     <div>
-      <p>מיקרופון: {listening ? 'פעיל' : 'כבוי'}</p>
+      <p>מיקרופון: {
+      listening 
+      ? 'פעיל' 
+      : 'כבוי'
+      }</p>
       <button
         onCopy={(e)=>{
           e.preventDefault()
           return false;
         }}
-        onClick={() => listening ? SpeechRecognition.stopListening() : startListening()}
-      >לחיצה ל{listening ? 'דיבור' :'כיבוי'}</button>
+        onClick={
+          () => listening 
+          ? SpeechRecognition.stopListening() 
+          : startListening()
+        }
+      >לחיצה ל{
+      listening 
+      ? 'דיבור' 
+      :'כיבוי'
+      }</button>
       <p>{transcript}</p>
     </div>
   );
