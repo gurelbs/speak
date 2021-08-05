@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 
@@ -10,7 +10,7 @@ function App() {
     resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
-
+  const [havePermissions, setHavePermissions] = useState(false)
   React.useEffect(() => {
     if (finalTranscript){
       const speak = new SpeechSynthesisUtterance(finalTranscript)
@@ -30,12 +30,23 @@ function App() {
   }
   function Mobile(){
     
+    function checkPermissions() {
+      const permissions = navigator.mediaDevices.getUserMedia({audio: true, video: false})
+      permissions.then((stream) => {
+        alert('accepted the permissions');
+        setHavePermissions( x => !x)
+      })
+      .catch((err) => {
+        setHavePermissions(false)
+        console.log(`${err.name} : ${err.message}`)
+      });
+    }
     
     function handleReco(){
+      checkPermissions()
       const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
       let recognition = new SpeechRecognition()
-      console.log(recognition);
-      recognition.start()
+      recognition.start();
       recognition.onresult = (e) => {
         const current = e.resultIndex;
         let transcript = e.results[current][0].transcript;
@@ -44,20 +55,10 @@ function App() {
         if(!mobileRepeatBug) {
             if(transcript === 'בדיקה' || transcript === ' בדיקה') {
                 console.log(transcript);
-                e.results = {};
             }
         }
-      setTimeout(() => {
-        recognition.start();
-      }, 50);
-
     }
     }
-      const getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-      getUserMedia.call(navigator, {
-        video: true,
-        audio: true //optional
-    })
     return <button onClick={handleReco}>
       זיהוי קולי בטלפון
     </button>
