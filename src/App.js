@@ -6,8 +6,15 @@ export default function App() {
 
   useEffect(() => {
     if (answer){
-    const speak = new (window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance)(answer);
+      const speak = new (window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance)(answer);
+      console.log(window.speechSynthesis.getVoices());
       speechSynthesis.speak(speak)
+      if (window.speechSynthesis){
+        window.speechSynthesis.speak(speak)
+      }
+      if (window.webkitSpeechSynthesis){
+        window.webkitSpeechSynthesis.speak(speak)
+      }
     }
   },[answer])
 
